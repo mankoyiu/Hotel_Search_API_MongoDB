@@ -149,7 +149,7 @@ Base URL: `http://localhost:10888/api/v1`
 - Method: POST
 - Auth: Basic Auth (Admin credentials)
 - Body:
-```json
+
 {
   "username": "mary",
   "password": "12345678",
@@ -161,16 +161,16 @@ Base URL: `http://localhost:10888/api/v1`
     "nickname": "mary"
   }
 }
-```
+
 
  2. Upload Agency Photo
 - Endpoint: `POST /agency/upload-photo`
 - Method: POST
 - Auth: Basic Auth
-```plaintext
+//plaintext
 Username: peter
 Password: 12345678
-```
+
 - Body: form-data
   - Key: `profilePhoto`
   - Type: File
@@ -188,7 +188,7 @@ Password: 12345678
 - Endpoint: `POST /hotel`
 - Method: POST
 - Body:
-```json
+
 {
     "star": 8,
     "name": "8 Seasons Hotel Hong Kong",
@@ -214,14 +214,14 @@ Password: 12345678
     "web": "www.fourseasons.com",
     "token": "1743436646980"
 }
-```
+
 
  2. Update Hotel
 - Endpoint: `PUT /hotel/{hotelId}`
 - Method: PUT
 - Example: `PUT /hotel/67ec3525250d2b71082e472b`
 - Body:
-```json
+
 {
     "star": 8,
     "name": "8 Seasons Hotel Hong Kong",
@@ -247,18 +247,17 @@ Password: 12345678
     "web": "www.fourseasons.com",
     "token": "1743436646980"
 }
-```
+
 
  3. Delete Hotel
 - Endpoint: `DELETE /hotel/{hotelId}`
 - Method: DELETE
 - Example: `DELETE /hotel/67ec3525250d2b71082e472b`
 - Body:
-```json
+
 {
     "token": "1743436646980"
 }
-```
 
  Member Management
 
@@ -267,7 +266,7 @@ Password: 12345678
 - Method: POST
 - Auth: None required
 - Body:
-```json
+
 {
   "username": "mary",
   "password": "12345678",
@@ -279,19 +278,19 @@ Password: 12345678
     "nickname": "mary"
   }
 }
-```
+
 
  2. Get Favorites List
 - Endpoint: `GET /favourlist`
 - Method: GET
 - Body:
-```json
+
 {
     "token": "1743528462289",
     "username": "baby",
     "role": 2
 }
-```
+
 
  Messaging System
 
@@ -299,35 +298,35 @@ Password: 12345678
 - Endpoint: `POST /message`
 - Method: POST
 - Body:
-```json
+
 {
     "token": "1743528462289",
     "receiver": "agencyq",
     "content": "Hello, I am interested in your hotel listings",
     "type": "text"
 }
-```
+
 
  2. Get Messages
 - Endpoint: `GET /message`
 - Method: GET
 - Body:
-```json
+
 {
     "token": "1743427268076"
 }
-```
+
 
  3. Delete Message
 - Endpoint: `DELETE /message`
 - Method: DELETE
 - Body:
-```json
+
 {
     "token": "1743528462289",
     "messageId": "67ec27def151a312661411a7"
 }
-```
+
 
  Testing Flow
 
