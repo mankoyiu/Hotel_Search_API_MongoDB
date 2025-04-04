@@ -1,9 +1,9 @@
-# API Documentation
+ API Documentation
 
-## Overview
+ Overview
 This is a RESTful API service that manages users, members, and agencies with role-based authentication and authorization. The system uses MongoDB as its database and implements secure authentication mechanisms.
 
-## Database Structure
+ Database Structure
 The application uses MongoDB with the following main collections:
 - `users`: Central database for all user types (admin, agency, members)
   - Role assignments:
@@ -11,41 +11,41 @@ The application uses MongoDB with the following main collections:
     - Role 1: Agency
     - Role 2: Member
 
-## Authentication
+ Authentication
 The API implements Basic Authentication for secure access control.
 
-### Authentication Endpoints
+ Authentication Endpoints
 - `POST /api/v1/members/auth`: Authentication endpoint for members
 - Base URL: `http://localhost:8888`
 
-### Authentication Flow
+ Authentication Flow
 1. All users (admin, agency, members) are stored in the `users` database
 2. Authentication is handled through Basic Auth
 3. Credentials must be provided in the request headers
 
-## Role-Based Access Control
+ Role-Based Access Control
 
-### Admin Rights
+ Admin Rights
 - Full access to all endpoints
 - Can update or delete any member account
 - Can manage agency accounts
 
-### Agency Rights (Role 1)
+ Agency Rights (Role 1)
 - Limited to agency-specific operations
 - Can manage their own profile
 - Access to agency-specific features
 
-### Member Rights (Role 2)
+ Member Rights (Role 2)
 - Can update or delete their own account
 - Access to member-specific features
 - Limited to personal data management
 
-## Key Features
+ Key Features
 
-### Photo Upload
+ Photo Upload
 Endpoint: `POST /api/v1/agency/upload-photo`
 
-#### How to Upload Photos:
+ How to Upload Photos:
 1. Use form-data in the request body
 2. Key name: `profilePhoto`
 3. File type: Image files
@@ -58,7 +58,7 @@ Example using Postman:
    - Add key `profilePhoto` (Type: File)
    - Attach image file
 
-### Authentication Example
+ Authentication Example
 Using Postman:
 1. Select the "Authorization" tab
 2. Choose "Basic Auth"
@@ -66,7 +66,7 @@ Using Postman:
    - Username: [your-username]
    - Password: [your-password]
 
-## Important Notes
+ Important Notes
 
 1. Member Registration
    - New members are automatically assigned Role 2
@@ -82,35 +82,35 @@ Using Postman:
    - Secure password handling
    - Role-based access control
 
-## API Endpoints
+ API Endpoints
 
-### Members
+ Members
 - `POST /api/v1/members/auth`: Member authentication
 - `PUT /api/v1/members/:id`: Update member profile
 - `DELETE /api/v1/members/:id`: Delete member account
 
-### Agency
+ Agency
 - `POST /api/v1/agency/upload-photo`: Upload agency profile photo
 - Additional agency-specific endpoints
 
-### Admin
+ Admin
 - Full access to all endpoints
 - Management endpoints for all user types
 
-## Technical Requirements
+ Technical Requirements
 - Node.js
 - MongoDB
 - TypeScript
 - Express.js
 
-## Development Notes
+ Development Notes
 1. All user authentication is centralized in the `users` database
 2. Role-based access control is implemented through user roles
 3. Basic Authentication is used across all endpoints
 4. File upload functionality is available for profile photos
 5. Secure password handling and validation
 
-## Error Handling
+ Error Handling
 The API implements standard HTTP status codes: 
 - 200: Success
 - 400: Bad Request
@@ -119,32 +119,32 @@ The API implements standard HTTP status codes:
 - 404: Not Found
 - 500: Internal Server Error
 
-## Security Considerations
+ Security Considerations
 1. Use HTTPS in production
 2. Implement rate limiting
 3. Validate all input data
 4. Secure password storage
 5. Role-based access control
 
-# API Testing Guide
+ API Testing Guide
 
 Base URL: `http://localhost:10888/api/v1`
 
-## Authentication
+ Authentication
 
-### Admin Login
+ Admin Login
 - **Endpoint**: `POST /agency/auth`
 - **Auth**: Basic Authentication (Admin credentials)
 - **Purpose**: Used for admin operations and agency creation
 
-### Member Login
+ Member Login
 - **Endpoint**: `POST /members/auth`
 - **Auth**: Basic Authentication
 - **Purpose**: Member authentication
 
-## Agency Management
+ Agency Management
 
-### 1. Create Agency
+ 1. Create Agency
 - **Endpoint**: `POST /agency/auth`
 - **Method**: POST
 - **Auth**: Basic Auth (Admin credentials)
@@ -163,7 +163,7 @@ Base URL: `http://localhost:10888/api/v1`
 }
 ```
 
-### 2. Upload Agency Photo
+ 2. Upload Agency Photo
 - **Endpoint**: `POST /agency/upload-photo`
 - **Method**: POST
 - **Auth**: Basic Auth
@@ -176,15 +176,15 @@ Password: 12345678
   - Type: File
   - Value: [Select image file]
 
-### 3. Get Agency Photo
+ 3. Get Agency Photo
 - **Endpoint**: `GET /agency/{username}`
 - **Method**: GET
 - **Example**: `GET /agency/peter`
 - **Response**: Image file
 
-## Hotel Management
+ Hotel Management
 
-### 1. Add Hotel
+ 1. Add Hotel
 - **Endpoint**: `POST /hotel`
 - **Method**: POST
 - **Body**:
@@ -216,7 +216,7 @@ Password: 12345678
 }
 ```
 
-### 2. Update Hotel
+ 2. Update Hotel
 - **Endpoint**: `PUT /hotel/{hotelId}`
 - **Method**: PUT
 - **Example**: `PUT /hotel/67ec3525250d2b71082e472b`
@@ -249,7 +249,7 @@ Password: 12345678
 }
 ```
 
-### 3. Delete Hotel
+ 3. Delete Hotel
 - **Endpoint**: `DELETE /hotel/{hotelId}`
 - **Method**: DELETE
 - **Example**: `DELETE /hotel/67ec3525250d2b71082e472b`
@@ -260,9 +260,9 @@ Password: 12345678
 }
 ```
 
-## Member Management
+ Member Management
 
-### 1. Register Member
+ 1. Register Member
 - **Endpoint**: `POST /member`
 - **Method**: POST
 - **Auth**: None required
@@ -281,7 +281,7 @@ Password: 12345678
 }
 ```
 
-### 2. Get Favorites List
+ 2. Get Favorites List
 - **Endpoint**: `GET /favourlist`
 - **Method**: GET
 - **Body**:
@@ -293,9 +293,9 @@ Password: 12345678
 }
 ```
 
-## Messaging System
+ Messaging System
 
-### 1. Send Message
+ 1. Send Message
 - **Endpoint**: `POST /message`
 - **Method**: POST
 - **Body**:
@@ -308,7 +308,7 @@ Password: 12345678
 }
 ```
 
-### 2. Get Messages
+ 2. Get Messages
 - **Endpoint**: `GET /message`
 - **Method**: GET
 - **Body**:
@@ -318,7 +318,7 @@ Password: 12345678
 }
 ```
 
-### 3. Delete Message
+ 3. Delete Message
 - **Endpoint**: `DELETE /message`
 - **Method**: DELETE
 - **Body**:
@@ -329,46 +329,46 @@ Password: 12345678
 }
 ```
 
-## Testing Flow
+ Testing Flow
 
-### 1. Initial Setup
+ 1. Initial Setup
 1. Start with admin login
 2. Create an agency account
 3. Upload agency photo
 4. Verify agency photo retrieval
 
-### 2. Hotel Management Flow
+ 2. Hotel Management Flow
 1. Add a new hotel
 2. Update hotel details
 3. Delete hotel
 
-### 3. Member Operations
+ 3. Member Operations
 1. Register new member
 2. Test member authentication
 3. Add hotels to favorites
 4. View favorites list
 
-### 4. Communication Testing
+ 4. Communication Testing
 1. Send message from member to agency
 2. Retrieve messages
 3. Delete messages
 
-## Postman Collection Setup
+ Postman Collection Setup
 
-### Environment Variables
+ Environment Variables
 Set up the following variables:
 - `base_url`: http://localhost:10888/api/v1
 - `token`: [Your authentication token]
 - `admin_username`: [Admin username]
 - `admin_password`: [Admin password]
 
-### Authentication Headers
+ Authentication Headers
 For endpoints requiring Basic Auth:
 1. Go to "Authorization" tab
 2. Select "Basic Auth"
 3. Enter credentials as required
 
-### File Upload Testing
+ File Upload Testing
 For photo upload:
 1. Select "Body" tab
 2. Choose "form-data"
@@ -376,7 +376,7 @@ For photo upload:
 4. Set type to File
 5. Select image file to upload
 
-## Error Testing
+ Error Testing
 Test each endpoint with:
 1. Invalid tokens
 2. Missing required fields
@@ -384,7 +384,7 @@ Test each endpoint with:
 4. Unauthorized access
 5. Non-existent IDs
 
-## Success Criteria
+ Success Criteria
 - 200: Successful operation
 - 201: Successfully created
 - 400: Bad request
