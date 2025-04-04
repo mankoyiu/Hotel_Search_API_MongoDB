@@ -133,22 +133,22 @@ Base URL: `http://localhost:10888/api/v1`
  Authentication
 
  Admin Login
-- **Endpoint**: `POST /agency/auth`
-- **Auth**: Basic Authentication (Admin credentials)
-- **Purpose**: Used for admin operations and agency creation
+- Endpoint: `POST /agency/auth`
+- Auth: Basic Authentication (Admin credentials)
+- Purpose: Used for admin operations and agency creation
 
  Member Login
-- **Endpoint**: `POST /members/auth`
-- **Auth**: Basic Authentication
-- **Purpose**: Member authentication
+- Endpoint: `POST /members/auth`
+- Auth: Basic Authentication
+- Purpose: Member authentication
 
  Agency Management
 
  1. Create Agency
-- **Endpoint**: `POST /agency/auth`
-- **Method**: POST
-- **Auth**: Basic Auth (Admin credentials)
-- **Body**:
+- Endpoint: `POST /agency/auth`
+- Method: POST
+- Auth: Basic Auth (Admin credentials)
+- Body:
 ```json
 {
   "username": "mary",
@@ -164,30 +164,30 @@ Base URL: `http://localhost:10888/api/v1`
 ```
 
  2. Upload Agency Photo
-- **Endpoint**: `POST /agency/upload-photo`
-- **Method**: POST
-- **Auth**: Basic Auth
+- Endpoint: `POST /agency/upload-photo`
+- Method: POST
+- Auth: Basic Auth
 ```plaintext
 Username: peter
 Password: 12345678
 ```
-- **Body**: form-data
+- Body: form-data
   - Key: `profilePhoto`
   - Type: File
   - Value: [Select image file]
 
  3. Get Agency Photo
-- **Endpoint**: `GET /agency/{username}`
-- **Method**: GET
-- **Example**: `GET /agency/peter`
-- **Response**: Image file
+- Endpoint: `GET /agency/{username}`
+- Method: GET
+- Example: `GET /agency/peter`
+- Response: Image file
 
  Hotel Management
 
  1. Add Hotel
-- **Endpoint**: `POST /hotel`
-- **Method**: POST
-- **Body**:
+- Endpoint: `POST /hotel`
+- Method: POST
+- Body:
 ```json
 {
     "star": 8,
@@ -217,10 +217,10 @@ Password: 12345678
 ```
 
  2. Update Hotel
-- **Endpoint**: `PUT /hotel/{hotelId}`
-- **Method**: PUT
-- **Example**: `PUT /hotel/67ec3525250d2b71082e472b`
-- **Body**:
+- Endpoint: `PUT /hotel/{hotelId}`
+- Method: PUT
+- Example: `PUT /hotel/67ec3525250d2b71082e472b`
+- Body:
 ```json
 {
     "star": 8,
@@ -250,10 +250,10 @@ Password: 12345678
 ```
 
  3. Delete Hotel
-- **Endpoint**: `DELETE /hotel/{hotelId}`
-- **Method**: DELETE
-- **Example**: `DELETE /hotel/67ec3525250d2b71082e472b`
-- **Body**:
+- Endpoint: `DELETE /hotel/{hotelId}`
+- Method: DELETE
+- Example: `DELETE /hotel/67ec3525250d2b71082e472b`
+- Body:
 ```json
 {
     "token": "1743436646980"
@@ -263,10 +263,10 @@ Password: 12345678
  Member Management
 
  1. Register Member
-- **Endpoint**: `POST /member`
-- **Method**: POST
-- **Auth**: None required
-- **Body**:
+- Endpoint: `POST /member`
+- Method: POST
+- Auth: None required
+- Body:
 ```json
 {
   "username": "mary",
@@ -282,9 +282,9 @@ Password: 12345678
 ```
 
  2. Get Favorites List
-- **Endpoint**: `GET /favourlist`
-- **Method**: GET
-- **Body**:
+- Endpoint: `GET /favourlist`
+- Method: GET
+- Body:
 ```json
 {
     "token": "1743528462289",
@@ -296,9 +296,9 @@ Password: 12345678
  Messaging System
 
  1. Send Message
-- **Endpoint**: `POST /message`
-- **Method**: POST
-- **Body**:
+- Endpoint: `POST /message`
+- Method: POST
+- Body:
 ```json
 {
     "token": "1743528462289",
@@ -309,9 +309,9 @@ Password: 12345678
 ```
 
  2. Get Messages
-- **Endpoint**: `GET /message`
-- **Method**: GET
-- **Body**:
+- Endpoint: `GET /message`
+- Method: GET
+- Body:
 ```json
 {
     "token": "1743427268076"
@@ -319,9 +319,9 @@ Password: 12345678
 ```
 
  3. Delete Message
-- **Endpoint**: `DELETE /message`
-- **Method**: DELETE
-- **Body**:
+- Endpoint: `DELETE /message`
+- Method: DELETE
+- Body:
 ```json
 {
     "token": "1743528462289",
