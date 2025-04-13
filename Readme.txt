@@ -1,127 +1,639 @@
-# API Documentation
+Demo Link:
+https://youtu.be/WJXr_CzEnSs
 
-## Overview
-This is a RESTful API service that manages users, members, and agencies with role-based authentication and authorization. The system uses MongoDB as its database and implements secure authentication mechanisms.
 
-## Database Structure
-The application uses MongoDB with the following main collections:
-- `users`: Central database for all user types (admin, agency, members)
-  - Role assignments:
-    - Role 0: Admin
-    - Role 1: Agency
-    - Role 2: Member
 
-## Authentication
-The API implements Basic Authentication for secure access control.
+ API Testing Guide
 
-### Authentication Endpoints
-- `POST /api/v1/members/auth`: Authentication endpoint for members
-- Base URL: `http://localhost:8888`
+Base URL: `http://localhost:10888/api/v1`
 
-### Authentication Flow
-1. All users (admin, agency, members) are stored in the `users` database
-2. Authentication is handled through Basic Auth
-3. Credentials must be provided in the request headers
+ Authentication
 
-## Role-Based Access Control
+ Admin Login
+- Endpoint: `POST /agency/auth`
+- Auth: Basic Authentication (Admin credentials)
+- Purpose: Used for admin operations and agency creation
 
-### Admin Rights
-- Full access to all endpoints
-- Can update or delete any member account
-- Can manage agency accounts
+ Member Login
+- Endpoint: `POST /members/auth`
+- Auth: Basic Authentication
+- Purpose: Member authentication
 
-### Agency Rights (Role 1)
-- Limited to agency-specific operations
-- Can manage their own profile
-- Access to agency-specific features
+ Agency Management
 
-### Member Rights (Role 2)
-- Can update or delete their own account
-- Access to member-specific features
-- Limited to personal data management
+ 1. Create Agency
+- Endpoint: `POST /agency`
+- Method: POST
+- Auth: Basic Auth (Admin credentials)
+- Body:
 
-## Key Features
+{
+  "username": "mary",
+  "password": "12345678",
+  "email": "mary@wanderlust.com",
+  "phone": "86123402",
+  "name": {
+    "firstname": "mary",
+    "lastname": "mary",
+    "nickname": "mary"
+  }
+}
 
-### Photo Upload
-Endpoint: `POST /api/v1/agency/upload-photo`
 
-#### How to Upload Photos:
-1. Use form-data in the request body
-2. Key name: `profilePhoto`
-3. File type: Image files
+ 2. Update Agency
+- Endpoint: `PUT /agency`
+- Method: PUT
+- Auth: Basic Auth
+- Body:
 
-Example using Postman:
-1. Select POST method
-2. Enter URL: `http://your-server-address/api/v1/agency/upload-photo`
-3. In Body tab:
-   - Select form-data
-   - Add key `profilePhoto` (Type: File)
-   - Attach image file
+{
+  "username": "mary",
+  "password": "newpassword",
+  "email": "newemail@wanderlust.com",
+  "phone": "newphone",
+  "name": {
+    "firstname": "newfirstname",
+    "lastname": "newlastname",
+    "nickname": "newnickname"
+  }
+}
 
-### Authentication Example
-Using Postman:
-1. Select the "Authorization" tab
-2. Choose "Basic Auth"
-3. Enter credentials:
-   - Username: [your-username]
-   - Password: [your-password]
 
-## Important Notes
+ 3. Upload Agency Photo
+- Endpoint: `POST /agency/upload-photo`
+- Method: POST
+- Auth: Basic Auth
+- Body: form-data
+  - Key: `profilePhoto`
+  - Type: File
+  - Value: [Select image file]
 
-1. Member Registration
-   - New members are automatically assigned Role 2
-   - Registration data is stored in the `users` database
+ 4. Get Agency Photo
+- Endpoint: `GET /agency/{username}`
+- Method: GET
+- Example: `GET /agency/peter`
+- Response: Image file
 
-2. Data Management
-   - Members can manage their own accounts
-   - Admins have full management rights
-   - All user types are centralized in the `users` database
+ Hotel Management
 
-3. Security
-   - Uses Basic Authentication
-   - Secure password handling
-   - Role-based access control
+ 1. Add Hotel
+- Endpoint: `POST /hotel`
+- Method: POST
+- Body:
 
-## API Endpoints
+{
+    "star": 8,
+    "name": "8 Seasons Hotel Hong Kong",
+    "accommodationType": "Hotel",
+    "address": "8 Finance Street, Central",
+    "city": "Hong Kong",
+    "coordinates": {
+        "latitude": 22.2863701,
+        "longitude": 114.0849434
+    },
+    "country": "Hong Kong, China",
+    "description": "Luxe harbour-view hotel with a pool",
+    "email": "info@fourseasons.com",
+    "facilities": [
+        "Pool",
+        "Spa",
+        "Free WiFi",
+        "Air-conditioned"
+    ],
+    "lastUpdate": "2025-03-15",
+    "phones": "(852)-3196-8888",
+    "ranking": 5,
+    "web": "www.fourseasons.com",
+    "token": "1743436646980"
+}
 
-### Members
-- `POST /api/v1/members/auth`: Member authentication
-- `PUT /api/v1/members/:id`: Update member profile
-- `DELETE /api/v1/members/:id`: Delete member account
 
-### Agency
-- `POST /api/v1/agency/upload-photo`: Upload agency profile photo
-- Additional agency-specific endpoints
+ 2. Update Hotel
+- Endpoint: `PUT /hotel/{hotelId}`
+- Method: PUT
+- Example: `PUT /hotel/67ec3525250d2b71082e472b`
+- Body:
 
-### Admin
-- Full access to all endpoints
-- Management endpoints for all user types
+{
+    "star": 8,
+    "name": "8 Seasons Hotel Hong Kong",
+    "accommodationType": "Hotel",
+    "address": "8 Finance Street, Central",
+    "city": "Hong Kong",
+    "coordinates": {
+        "latitude": 22.2863701,
+        "longitude": 114.0849434
+    },
+    "country": "Hong Kong, China",
+    "description": "Luxe harbour-view hotel with a pool",
+    "email": "info@fourseasons.com",
+    "facilities": [
+        "Pool",
+        "Spa",
+        "Free WiFi",
+        "Air-conditioned"
+    ],
+    "lastUpdate": "2025-03-15",
+    "phones": "(852)-3196-8888",
+    "ranking": 5,
+    "web": "www.fourseasons.com",
+    "token": "1743436646980"
+}
 
-## Technical Requirements
-- Node.js
-- MongoDB
-- TypeScript
-- Express.js
 
-## Development Notes
-1. All user authentication is centralized in the `users` database
-2. Role-based access control is implemented through user roles
-3. Basic Authentication is used across all endpoints
-4. File upload functionality is available for profile photos
-5. Secure password handling and validation
+ 3. Delete Hotel
+- Endpoint: `DELETE /hotel/{hotelId}`
+- Method: DELETE
+- Example: `DELETE /hotel/67ec3525250d2b71082e472b`
+- Body:
 
-## Error Handling
-The API implements standard HTTP status codes:
-- 200: Success
-- 400: Bad Request
-- 401: Unauthorized
-- 403: Forbidden
-- 404: Not Found
-- 500: Internal Server Error
+{
+    "token": "1743436646980"
+}
 
-## Security Considerations
-1. Use HTTPS in production
-2. Implement rate limiting
-3. Validate all input data
-4. Secure password storage
-5. Role-based access control
+
+ Member Management
+
+ 1. Register Member
+- Endpoint: `POST /member`
+- Method: POST
+- Auth: None required
+- Body:
+
+{
+  "username": "mary",
+  "password": "12345678",
+  "email": "mary@wanderlust.com",
+  "phone": "86123402",
+  "name": {
+    "firstname": "mary",
+    "lastname": "mary",
+    "nickname": "mary"
+  }
+}
+
+
+ 2. Update Member
+- Endpoint: `PUT /member`
+- Method: PUT
+- Auth: Basic Auth
+- Body:
+
+{
+  "username": "mary",
+  "password": "newpassword",
+  "email": "newemail@wanderlust.com",
+  "phone": "newphone",
+  "name": {
+    "firstname": "newfirstname",
+    "lastname": "newlastname",
+    "nickname": "newnickname"
+  }
+}
+
+
+ 3. Upload Member Photo
+- Endpoint: `POST /member/upload-photo`
+- Method: POST
+- Auth: Basic Auth
+- Body: form-data
+  - Key: `profilePhoto`
+  - Type: File
+  - Value: [Select image file]
+
+
+ 4. Get Member Photo
+- Endpoint: `GET /member/{username}`
+- Method: GET
+- Example: `GET /member/mary`
+- Response: Image file
+
+ 5. Delete Member
+- Endpoint: `DELETE /member`
+- Method: DELETE
+- Auth: Basic Auth
+- Body: None required
+
+
+ Favorites Management
+
+ 1. Get Favorites List
+- Endpoint: `GET /favourlist`
+- Method: GET
+- Auth: Token required
+- Body:
+
+{
+    "token": "1743528462289"
+}
+
+
+ 2. Add to Favorites
+- Endpoint: `POST /favourlist`
+- Method: POST
+- Auth: Token required
+- Body:
+
+{
+    "token": "1743528462289",
+    "hotelId": "67ec3525250d2b71082e472b"
+}
+
+
+ 3. Remove from Favorites
+- Endpoint: `DELETE /favourlist`
+- Method: DELETE
+- Auth: Token required
+- Body:
+
+{
+    "token": "1743528462289",
+    "hotelId": "67ec3525250d2b71082e472b"
+}
+
+
+ Messaging System
+
+ 1. Send Message
+- Endpoint: `POST /message`
+- Method: POST
+- Auth: Token required
+- Body:
+
+{
+    "token": "1743528462289",
+    "receiver": "agencyq",
+    "content": "Hello, I am interested in your hotel listings",
+    "type": "text"
+}
+
+
+ 2. Get Messages
+- Endpoint: `GET /message`
+- Method: GET
+- Auth: Token required
+- Body:
+
+{
+    "token": "1743528462289"
+}
+
+
+ 3. Delete Message
+- Endpoint: `DELETE /message`
+- Method: DELETE
+- Auth: Token required
+- Body:
+
+{
+    "token": "1743528462289",
+    "messageId": "67ec27def151a312661411a7"
+}
+
+OpenAPI specification:
+
+openapi: 3.0.0
+info:
+  title: Wanderlust Travel API
+  description: API for managing hotels, agencies, members, and related operations
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@wanderlust.com
+
+servers:
+  - url: http://localhost:10888
+    description: Development server
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        token:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        name:
+          type: object
+          properties:
+            firstname:
+              type: string
+            lastname:
+              type: string
+            middlename:
+              type: string
+            nickname:
+              type: string
+        status:
+          type: boolean
+        role:
+          type: integer
+          enum: [0, 1, 2]
+          description: 0 for admin, 1 for agency, 2 for member
+        profilePhoto:
+          type: string
+
+    Hotel:
+      type: object
+      properties:
+        star:
+          type: integer
+        name:
+          type: string
+        accommodationType:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: number
+            longitude:
+              type: number
+        country:
+          type: string
+        description:
+          type: string
+        email:
+          type: string
+        facilities:
+          type: array
+          items:
+            type: string
+        lastUpdate:
+          type: string
+          format: date
+        phones:
+          type: string
+        ranking:
+          type: number
+        web:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+        senderId:
+          type: integer
+        receiverId:
+          type: integer
+        content:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    Favour:
+      type: object
+      properties:
+        id:
+          type: integer
+        memberId:
+          type: integer
+        hotelId:
+          type: integer
+
+paths:
+  /api/v1/agency:
+    post:
+      summary: Create a new agency
+      security:
+        - BasicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Agency created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - Admin privileges required
+
+    put:
+      summary: Update an existing agency
+      security:
+        - BasicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Agency updated successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - Admin privileges required
+
+  /api/v1/agency/upload-photo:
+    post:
+      summary: Upload agency profile photo
+      security:
+        - BasicAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                profilePhoto:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Photo uploaded successfully
+        '401':
+          description: Unauthorized
+
+  /api/v1/agency/auth:
+    get:
+      summary: Authenticate agency
+      security:
+        - BasicAuth: []
+      responses:
+        '200':
+          description: Authentication successful
+        '401':
+          description: Unauthorized
+
+  /api/v1/member:
+    get:
+      summary: Get member information
+      security:
+        - BasicAuth: []
+      responses:
+        '200':
+          description: Member information retrieved successfully
+        '401':
+          description: Unauthorized
+
+    post:
+      summary: Create a new member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Member created successfully
+        '400':
+          description: Bad request
+
+    delete:
+      summary: Delete a member
+      security:
+        - BasicAuth: []
+      responses:
+        '200':
+          description: Member deleted successfully
+        '401':
+          description: Unauthorized
+
+  /api/v1/member/upload-photo:
+    post:
+      summary: Upload member profile photo
+      security:
+        - BasicAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                profilePhoto:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Photo uploaded successfully
+        '401':
+          description: Unauthorized
+
+  /api/v1/member/auth:
+    get:
+      summary: Authenticate member
+      security:
+        - BasicAuth: []
+      responses:
+        '200':
+          description: Authentication successful
+        '401':
+          description: Unauthorized
+
+  /api/v1/hotel:
+    get:
+      summary: Get all hotels
+      responses:
+        '200':
+          description: List of hotels
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Hotel'
+
+    post:
+      summary: Add a new hotel
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hotel'
+      responses:
+        '201':
+          description: Hotel added successfully
+        '401':
+          description: Unauthorized
+
+  /api/v1/hotel/{id}:
+    delete:
+      summary: Delete a hotel
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Hotel deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Hotel not found
+
+  /api/v1/favourlist:
+    get:
+      summary: Get user's favorites
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of favorites
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Favour'
+        '401':
+          description: Unauthorized
+
+  /api/v1/message:
+    get:
+      summary: Get messages
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+        '401':
+          description: Unauthorized 
