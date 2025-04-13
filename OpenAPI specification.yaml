@@ -1,0 +1,345 @@
+openapi: 3.0.0
+info:
+  title: Wanderlust Travel API
+  description: API for managing hotels, agencies, members, and related operations
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@wanderlust.com
+
+servers:
+  - url: http://localhost:10888
+    description: Development server
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        token:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        name:
+          type: object
+          properties:
+            firstname:
+              type: string
+            lastname:
+              type: string
+            middlename:
+              type: string
+            nickname:
+              type: string
+        status:
+          type: boolean
+        role:
+          type: integer
+          enum: [0, 1, 2]
+          description: 0 for admin, 1 for agency, 2 for member
+        profilePhoto:
+          type: string
+
+    Hotel:
+      type: object
+      properties:
+        star:
+          type: integer
+        name:
+          type: string
+        accommodationType:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: number
+            longitude:
+              type: number
+        country:
+          type: string
+        description:
+          type: string
+        email:
+          type: string
+        facilities:
+          type: array
+          items:
+            type: string
+        lastUpdate:
+          type: string
+          format: date
+        phones:
+          type: string
+        ranking:
+          type: number
+        web:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+        senderId:
+          type: integer
+        receiverId:
+          type: integer
+        content:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    Favour:
+      type: object
+      properties:
+        id:
+          type: integer
+        memberId:
+          type: integer
+        hotelId:
+          type: integer
+
+paths:
+  /api/v1/agency:
+    post:
+      summary: Create a new agency
+      security:
+        - BasicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Agency created successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - Admin privileges required
+
+    put:
+      summary: Update an existing agency
+      security:
+        - BasicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Agency updated successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - Admin privileges required
+
+  /api/v1/agency/upload-photo:
+    post:
+      summary: Upload agency profile photo
+      security:
+        - BasicAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                profilePhoto:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Photo uploaded successfully
+        '401':
+          description: Unauthorized
+
+  /api/v1/agency/auth:
+    get:
+      summary: Authenticate agency
+      security:
+        - BasicAuth: []
+      responses:
+        '200':
+          description: Authentication successful
+        '401':
+          description: Unauthorized
+
+  /api/v1/member:
+    get:
+      summary: Get member information
+      security:
+        - BasicAuth: []
+      responses:
+        '200':
+          description: Member information retrieved successfully
+        '401':
+          description: Unauthorized
+
+    post:
+      summary: Create a new member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Member created successfully
+        '400':
+          description: Bad request
+
+    delete:
+      summary: Delete a member
+      security:
+        - BasicAuth: []
+      responses:
+        '200':
+          description: Member deleted successfully
+        '401':
+          description: Unauthorized
+
+  /api/v1/member/upload-photo:
+    post:
+      summary: Upload member profile photo
+      security:
+        - BasicAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                profilePhoto:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Photo uploaded successfully
+        '401':
+          description: Unauthorized
+
+  /api/v1/member/auth:
+    get:
+      summary: Authenticate member
+      security:
+        - BasicAuth: []
+      responses:
+        '200':
+          description: Authentication successful
+        '401':
+          description: Unauthorized
+
+  /api/v1/hotel:
+    get:
+      summary: Get all hotels
+      responses:
+        '200':
+          description: List of hotels
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Hotel'
+
+    post:
+      summary: Add a new hotel
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hotel'
+      responses:
+        '201':
+          description: Hotel added successfully
+        '401':
+          description: Unauthorized
+
+  /api/v1/hotel/{id}:
+    delete:
+      summary: Delete a hotel
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Hotel deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Hotel not found
+
+  /api/v1/favourlist:
+    get:
+      summary: Get user's favorites
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of favorites
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Favour'
+        '401':
+          description: Unauthorized
+
+  /api/v1/message:
+    get:
+      summary: Get messages
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+        '401':
+          description: Unauthorized 
